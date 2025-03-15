@@ -1,12 +1,3 @@
-# CooldownLib
-
-Just small library for creating cooldown.
-
-## Example
-
-Print `call` every 2 second
-
-```lua
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local cooldown = require(ReplicatedStorage.Packages.cooldown)
@@ -19,8 +10,8 @@ local c = cooldown.new(
  	end
 )
 
-while task.wait() do
-	c()
+while task.wait(0.5) do
+	if not c() then
+		print("can't call")
+	end
 end
-
-```
