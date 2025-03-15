@@ -38,6 +38,15 @@
             "group": {
                 "kind": "none"
             }
+        },
+        {
+            "type": "shell",
+            "label": "Publish",
+            "detail": "Publish this lib",
+            "command": "wally publish && exit",
+            "group": {
+                "kind": "none"
+            }
         }
     ],
     "windows": {
