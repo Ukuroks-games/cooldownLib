@@ -13,3 +13,4 @@ sourcemap.json
 Packages/
 DevPackages/
 ServerPackages/
+build/

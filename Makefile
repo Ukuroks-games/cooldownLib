@@ -1,6 +1,6 @@
-LIBNAME = cooldownlib
+LIBNAME = cooldown
 
-PACKAGE_NAME = $(LIBNAME).zip
+PACKAGE_NAME = $(LIBNAME)lib.zip
 
 CP = cp -rf
 MV = mv -f
