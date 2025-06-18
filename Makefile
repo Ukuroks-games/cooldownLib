@@ -18,9 +18,7 @@ package: configure
 	wally package --output $(PACKAGE_NAME) --project-path build
 
 publish: configure
-	cd build
-	wally publish
-	cd ..
+	wally publish --project-path build
 
 lint:
 	selene src/ tests/
