@@ -1,3 +1,5 @@
+[![Lint](https://github.com/Ukuroks-games/cooldownLib/actions/workflows/Lint.yaml/badge.svg)](https://github.com/Ukuroks-games/cooldownLib/actions/workflows/Lint.yaml)
+
 # CooldownLib
 
 Just small library for creating cooldown.
