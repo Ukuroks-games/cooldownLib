@@ -1,20 +1,18 @@
 {
 	"editor.insertSpaces": false,
-	
 	"cSpell.enabled": true,
 	"cSpell.words": [
+		"cooldown",
 		"Roblox",
-		"rojo",
+		"rojo"
 	],
-
 	"cSpell.ignorePaths": [
 		"vscode-extension",
 		".git/objects",
-		".vscode",	// ignore vscode workspace settings
+		".vscode", // ignore vscode workspace settings
 		".vscode-insiders",
-		"*.toml"	// ignore toml files
+		"*.toml" // ignore toml files
 	],
-
 	"luau-lsp.sourcemap.rojoProjectFile": "tests.project.json",
 	"luau-lsp.sourcemap.generatorCommand": "make sourcemap",
 	"luau-lsp.platform.type": "roblox",
