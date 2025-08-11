@@ -45,6 +45,7 @@ export type Cooldown<RetType, ArgsType...> = typeof(setmetatable({} :: CooldownS
 function cooldown.Destroy<RetType, ArgsType...>(self: Cooldown<RetType, ArgsType...>)
 	self:StopWatch()
 	self.CallEvent:Destroy()
+
 	table.clear(self)
 end
 
