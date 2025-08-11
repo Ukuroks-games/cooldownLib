@@ -50,6 +50,9 @@ $(BUILD_SOURCES):	MV_SOURCES
 $(PACKAGE_NAME):	$(BUILD_SOURCES)	$(BUILD_DIR)/wally.toml
 	wally package --output $(PACKAGE_NAME) --project-path $(BUILD_DIR)
 
+publish:	clean-build	$(BUILD_SOURCES)	$(BUILD_DIR)/wally.toml	
+	wally publish --project-path $(BUILD_DIR)
+
 lint:
 	selene src/ tests/
 
