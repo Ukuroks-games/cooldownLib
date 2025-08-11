@@ -5,11 +5,11 @@
 ]]
 local cooldown = {}
 
-type CooldownStruct<ArgsType, RetType> = {
+type CooldownStruct<RetType, ArgsType...> = {
 	--[[
 		function that wil be called
 	]]
-	func: (...ArgsType) -> RetType,
+	func: (ArgsType...) -> RetType,
 
 	--[[
 		Can run function right now
@@ -28,9 +28,9 @@ type CooldownStruct<ArgsType, RetType> = {
 	counterThread: thread?,
 }
 
-export type Cooldown<ArgsType, RetType> = typeof(setmetatable({} :: CooldownStruct<ArgsType, RetType>, {
+export type Cooldown<RetType, ArgsType...> = typeof(setmetatable({} :: CooldownStruct<RetType, ArgsType...>, {
 	__index = cooldown,
-	__call = function(self: typeof(setmetatable({}, {})), ...: ArgsType): RetType? -- просто заглушка
+	__call = function(self: typeof(setmetatable({}, {})), ...: ArgsType...): RetType? -- просто заглушка
 		return nil
 	end,
 }))
@@ -40,7 +40,7 @@ function cooldown.Destroy<ArgsType, RetType>(self: Cooldown<ArgsType, RetType> &
 	table.clear(self)
 end
 
-function cooldown.Call<ArgsType, RetType>(self: Cooldown<ArgsType, RetType>, ...: ArgsType): RetType?
+function cooldown.Call<RetType, ArgsType...>(self: Cooldown<RetType, ArgsType...>, ...: ArgsType...): RetType?
 	if self.CanRun == true then
 		self.CallEvent:Fire()
 		return self.func(...)
@@ -49,8 +49,8 @@ function cooldown.Call<ArgsType, RetType>(self: Cooldown<ArgsType, RetType>, ...
 	end
 end
 
-function cooldown.new<ArgsType, RetType>(timeout: number, func: (...ArgsType) -> RetType): Cooldown<ArgsType, RetType>
-	local self: CooldownStruct<ArgsType, RetType> = {
+function cooldown.new<RetType, ArgsType...>(timeout: number, func: (ArgsType...) -> RetType): Cooldown<RetType, ArgsType...>
+	local self: CooldownStruct<RetType, ArgsType...> = {
 		CanRun = true,
 		timeout = timeout,
 		func = func,
@@ -59,7 +59,7 @@ function cooldown.new<ArgsType, RetType>(timeout: number, func: (...ArgsType) ->
 
 	setmetatable(self, {
 		__index = cooldown,
-		__call = cooldown.Call :: <ArgsType, RetType>(self: typeof(setmetatable({}, {})), ...ArgsType) -> RetType?,
+		__call = cooldown.Call :: <RetType, ArgsType...>(self: typeof(setmetatable({}, {})), ArgsType...) -> RetType?,
 	})
 
 	return self
