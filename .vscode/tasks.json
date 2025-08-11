@@ -13,18 +13,36 @@
         {
             "type": "shell",
             "label": "Load depends",
-            "command": "wally install && exit",
+            "command": "make Packages -j$(nproc) && exit",
             "group": {
                 "kind": "none"
             },
             "detail": "Install all project depends",
-            "problemMatcher": []
+            "problemMatcher": [],
         },
         {
             "type": "shell",
-            "label": "Build",
+            "label": "Publish",
+            "detail": "Putblish this library as wally package",
+            "command": "make publish -j$(nproc) && exit",
+            "group": {
+                "kind": "none"
+            },
+        },
+        {
+            "type": "shell",
+            "label": "Package",
+            "detail": "Build wally .zip package",
+            "command": "make package -j$(nproc) && exit",
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Build tests",
             "detail": "Build tests place",
-            "command": "rojo build tests.project.json --output tests.rbxl && exit",
+            "command": "make tests -j$(nproc) && exit",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -32,18 +50,28 @@
         },
         {
             "type": "shell",
-            "label": "Generate sourcemap",
-            "detail": "Generate sourcemap for tests project",
-            "command": "rojo sourcemap tests.project.json --output sourcemap.json && exit",
+            "label": "Build rbxm",
+            "detail": "Build rbxm library",
+            "command": "make rbxm -j$(nproc) && exit",
             "group": {
-                "kind": "none"
+                "kind": "build",
+                "isDefault": true
             }
         },
         {
             "type": "shell",
-            "label": "Publish",
-            "detail": "Publish this lib",
-            "command": "wally publish && exit",
+            "label": "Clean",
+            "detail": "Clean builded files",
+            "command": "make clean -j$(nproc) && exit",
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Generate sourcemap",
+            "detail": "Generate sourcemap for this library",
+            "command": "make sourcemap -j$(nproc) && exit",
             "group": {
                 "kind": "none"
             }
@@ -51,10 +79,10 @@
         {
             "type": "shell",
             "label": "Lint",
-            "detail": "Lint this project",
-            "command": "make lint && exit",
+            "detail": "Run selene",
+            "command": "make lint -j$(nproc) && exit",
             "group": {
-                "kind": "none"
+                "kind": "none",
             }
         }
     ],

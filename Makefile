@@ -18,7 +18,7 @@ RBXM_BUILD = $(LIBNAME)lib.rbxm
 
 SOURCES = src/cooldown.luau
 
-TEST_SOURCES = tests/test.client.luau
+TEST_SOURCES = tests/test.server.luau
 
 $(BUILD_DIR): 
 	mkdir $@

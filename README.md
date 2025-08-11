@@ -8,7 +8,7 @@ Just small library for creating cooldown.
 
 Print `call` every 2 second
 
-```lua
+```luau
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local cooldown = require(ReplicatedStorage.Packages.cooldown)
@@ -24,5 +24,25 @@ local c = cooldown.new(
 while task.wait() do
 	c()
 end
-
 ```
+
+## Build
+
+### rbxm
+
+build:
+```sh
+aftman install
+make rbxm
+```
+
+## Tests
+
+Run tests:
+
+```sh
+aftman install
+make tests
+```
+
+open `Tests.rbxm`, in studio press `F8`.
