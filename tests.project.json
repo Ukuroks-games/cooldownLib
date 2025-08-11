@@ -4,11 +4,11 @@
 		"$className": "DataModel",
 		"ReplicatedStorage": {
 			"$className": "ReplicatedStorage",
-			"shared": {
-				"$path": "src"
-			},
 			"Packages": {
-				"$path": "Packages"
+				"$className": "Folder",
+				"cooldownlib": {
+					"$path": "src"
+				}
 			}
 		},
 		"Workspace": {

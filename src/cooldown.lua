@@ -1,13 +1,15 @@
+--!strict
+
 --[[
 	CooldownLib
 ]]
 local cooldown = {}
 
-export type Cooldown<ArgsType, RetType> = {
+type CooldownStruct<ArgsType, RetType> = {
 	--[[
 		function that wil be called
 	]]
-	func: (...ArgsType) -> any,
+	func: (...ArgsType) -> RetType,
 
 	--[[
 		Can run function right now
@@ -23,14 +25,17 @@ export type Cooldown<ArgsType, RetType> = {
 		
 	]]
 	CallEvent: BindableEvent,
-	counterThread: thread,
-
-	Call: (self: Cooldown<ArgsType, RetType>, ...ArgsType) -> RetType?,
-
-	Destroy: (self: Cooldown<ArgsType, RetType>) -> nil,
+	counterThread: thread?,
 }
 
-function cooldown.Destroy<ArgsType, RetType>(self: Cooldown<ArgsType, RetType>)
+export type Cooldown<ArgsType, RetType> = typeof(setmetatable({} :: CooldownStruct<ArgsType, RetType>, {
+	__index = cooldown,
+	__call = function(self: typeof(setmetatable({}, {})), ...: ArgsType): RetType? -- просто заглушка
+		return nil
+	end,
+}))
+
+function cooldown.Destroy<ArgsType, RetType>(self: Cooldown<ArgsType, RetType> & {})
 	self.CallEvent:Destroy()
 	table.clear(self)
 end
@@ -45,16 +50,17 @@ function cooldown.Call<ArgsType, RetType>(self: Cooldown<ArgsType, RetType>, ...
 end
 
 function cooldown.new<ArgsType, RetType>(timeout: number, func: (...ArgsType) -> RetType): Cooldown<ArgsType, RetType>
-	local self = {
+	local self: CooldownStruct<ArgsType, RetType> = {
 		CanRun = true,
 		timeout = timeout,
 		func = func,
-		Call = cooldown.Call,
-		Destroy = cooldown.Destroy,
 		CallEvent = Instance.new("BindableEvent"),
 	}
 
-	setmetatable(self, { __call = cooldown.Call })
+	setmetatable(self, {
+		__index = cooldown,
+		__call = cooldown.Call :: <ArgsType, RetType>(self: typeof(setmetatable({}, {})), ...ArgsType) -> RetType?,
+	})
 
 	return self
 end
