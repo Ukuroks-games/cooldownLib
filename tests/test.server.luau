@@ -11,6 +11,6 @@ end)
 
 while task.wait(0.5) do
 	if not c({}, 1) then
-		print("can't call")
+		print("can't call\n", c)
 	end
 end

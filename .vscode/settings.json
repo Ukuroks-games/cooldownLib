@@ -3,8 +3,10 @@
 	"cSpell.enabled": true,
 	"cSpell.words": [
 		"cooldown",
+		"cooldownlib",
 		"Roblox",
-		"rojo"
+		"rojo",
+		"tostring"
 	],
 	"cSpell.ignorePaths": [
 		"vscode-extension",

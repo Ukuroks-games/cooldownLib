@@ -32,12 +32,17 @@ type CooldownStruct<RetType, ArgsType...> = {
 	counterThread: thread?,
 }
 
-export type Cooldown<RetType, ArgsType...> = typeof(setmetatable({} :: CooldownStruct<RetType, ArgsType...>, {
-	__index = cooldown,
-	__call = function(self: typeof(setmetatable({}, {})), ...: ArgsType...): RetType? -- просто заглушка
-		return nil
-	end,
-}))
+--[[
+	Cooldown type
+]]
+export type Cooldown<RetType, ArgsType...> = typeof(setmetatable(
+	{} :: CooldownStruct<RetType, ArgsType...>,
+	{} :: {
+		__index: typeof(cooldown),
+		__call: (self: typeof(setmetatable({}, {})), ArgsType...) -> RetType?,
+		__tostring: (self: typeof(setmetatable({}, {}))) -> string,
+	}
+))
 
 --[[
 	Destroy
@@ -45,8 +50,6 @@ export type Cooldown<RetType, ArgsType...> = typeof(setmetatable({} :: CooldownS
 function cooldown.Destroy<RetType, ArgsType...>(self: Cooldown<RetType, ArgsType...>)
 	self:StopWatch()
 	self.CallEvent:Destroy()
-
-	table.clear(self)
 end
 
 --[[
@@ -61,8 +64,11 @@ function cooldown.Call<RetType, ArgsType...>(self: Cooldown<RetType, ArgsType...
 	end
 end
 
+--[[
+	Start watch cooldown state
+]]
 function cooldown.StartWatch<RetType, ArgsType...>(self: Cooldown<RetType, ArgsType...>)
-	if self.counterThread then
+	if not self.counterThread then
 		self.counterThread = task.spawn(function()
 			while true do
 				self.CanRun = true
@@ -71,7 +77,7 @@ function cooldown.StartWatch<RetType, ArgsType...>(self: Cooldown<RetType, ArgsT
 
 				self.CanRun = false
 
-				wait(self.timeout)
+				task.wait(self.timeout)
 			end
 		end)
 	else
@@ -79,12 +85,22 @@ function cooldown.StartWatch<RetType, ArgsType...>(self: Cooldown<RetType, ArgsT
 	end
 end
 
+--[[
+	Stop checking cooldown state.
+]]
 function cooldown.StopWatch<RetType, ArgsType...>(self: Cooldown<RetType, ArgsType...>)
 	if self.counterThread then
 		task.cancel(self.counterThread)
 	else
 		warn("watch don't started yet")
 	end
+end
+
+--[[
+	tostring
+]]
+function cooldown.tostring<RetType, ArgsType...>(self: Cooldown<RetType, ArgsType...>): string
+	return "cooldown:\n 	can run: " .. tostring(self.CanRun) .. "\n	timeout: " .. self.timeout
 end
 
 --[[
@@ -101,6 +117,7 @@ function cooldown.new<RetType, ArgsType...>(timeout: number, func: (ArgsType...)
 	setmetatable(self, {
 		__index = cooldown,
 		__call = cooldown.Call :: <RetType, ArgsType...>(self: typeof(setmetatable({}, {})), ArgsType...) -> RetType?,
+		__tostring = cooldown.tostring :: <RetType, ArgsType...>(self: typeof(setmetatable({}, {}))) -> string,
 	})
 
 	self:StartWatch()

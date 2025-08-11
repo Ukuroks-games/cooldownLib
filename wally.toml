@@ -1,9 +1,9 @@
 [package]
 name = "egor00f/cooldownlib"
 
-description = "just small library for call function with cooldown"
+description = "Just small library for call function with cooldown"
 
-version = "0.1.2"
+version = "0.1.3"
 
 registry = "https://github.com/UpliftGames/wally-index"
 
